@@ -25,47 +25,28 @@ sudo kubectl -n argocd get secret argocd-initial-admin-secret \
 
 (`KUBECONFIG` di default sulla VM è `/etc/rancher/k3s/k3s.yaml`.)
 
-## 2. Collegare il repository GitOps
+## 2–3. Repo GitOps + Application root (script)
 
-**Opzione A — SSH (allineata ai manifest in `argocd/`)**
+Dopo **ansible-playbook** (Argo CD installato). Se hai **ricreato la VM**, Argo CD è vuoto: va rifatto il bootstrap; la **deploy key su GitHub** può restare quella già aggiunta (`~/.ssh/oci-gitops-argocd.pub`).
 
-Sul PC:
+**Una tantum** — genera la coppia e aggiungi la `.pub` su GitHub (Deploy keys):
 
 ```bash
 bash scripts/generate-argocd-deploy-key.sh
 ```
 
-Segui l’output: deploy key su GitHub + repository in Argo CD con URL `git@github.com:cmontisci/oci-gitops.git`.
-
-**Opzione B — HTTPS**
-
-In Argo CD: repo `https://github.com/cmontisci/oci-gitops.git`, username GitHub, password = PAT (scope `repo` read).  
-Se usi HTTPS, cambia anche `repoURL` in tutti i file sotto `argocd/` (o resta su SSH).
-
-Verifica: in Repositories lo stato deve essere **Successful**.
-
-## 3. Application root `oci-gitops`
-
-**Da UI:** Applications → New App
-
-| Campo | Valore |
-|--------|--------|
-| Name | `oci-gitops` |
-| Project | `default` |
-| Sync policy | Automatic, Prune, Self heal |
-| Repository URL | come sopra |
-| Revision | `main` |
-| Path | `argocd` |
-| Cluster | `https://kubernetes.default.svc` |
-| Namespace | `argocd` |
-
-**Da kubectl** (dopo SSH):
+**Ogni reinstall di k3s/Argo CD** — dal PC (usa SSH verso la VM):
 
 ```bash
-kubectl apply -f scripts/bootstrap-argocd-root.yaml
+bash scripts/bootstrap-argocd-gitops.sh
+bash scripts/setup-secrets-via-ssh.sh
 ```
 
-Sync: dovresti vedere figli `platform`, `datastores-production`, `datastores-staging`, ApplicationSet workload (vuoti).
+Lo script crea il Secret `repo-oci-gitops` in `argocd` e applica `scripts/bootstrap-argocd-root.yaml` (Application `oci-gitops`).
+
+**Manuale (UI):** Settings → Repositories + New App `oci-gitops` path `argocd` — equivalente allo script.
+
+Sync: figli `platform`, `datastores-*`, ApplicationSet workload (vuoti finché non ci sono overlay).
 
 ## 4. Secret **prima** dei datastore
 
