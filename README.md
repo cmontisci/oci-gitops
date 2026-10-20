@@ -4,6 +4,8 @@ Fonte di verità dei manifest Kubernetes per il lab OCI: un cluster **k3s** su u
 
 Il cluster (k3s, Traefik, Argo CD) **non** sta qui: lo installa [oci-infrastructure](https://github.com/cmontisci/oci-infrastructure). Vocabolario interno: [CONTEXT.md](CONTEXT.md).
 
+**Setup passo passo:** [docs/SETUP.md](docs/SETUP.md) e script in `scripts/`.
+
 ## Struttura
 
 ```

@@ -1,0 +1,28 @@
+# Application root: applicare UNA SOLA VOLTA sul cluster (non sta in argocd/kustomization.yaml).
+# Richiede kubectl sulla VM o kubeconfig funzionante.
+#
+#   kubectl apply -f scripts/bootstrap-argocd-root.yaml
+#
+# Prima: collega il repository GitOps in Argo CD (Settings → Repositories).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oci-gitops
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:cmontisci/oci-gitops.git
+    targetRevision: main
+    path: argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
