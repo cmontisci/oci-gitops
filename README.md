@@ -40,10 +40,10 @@ Aggiungi o rimuovi `workloads/<app>/overlays/<env>/`: l’ApplicationSet crea o 
 | Datastore | Postgres + Valkey + pgAdmin | Postgres + Valkey |
 | Tag immagine CI | push su `main` → `:latest` + `:sha` | push su `develop` → `:sha` (non `:latest`) |
 
-Hostname pubblici (sen dominio dedicato): **nip.io** sull’IP pubblico della VM (`129.152.30.248` nel lab attuale). Esempi:
+Hostname pubblici (sen dominio dedicato): **nip.io** sull’IP pubblico della VM (`204.216.211.166` nel lab attuale). Esempi:
 
-- pgAdmin: `https://pgadmin.129.152.30.248.nip.io`
-- App future: `<app>.129.152.30.248.nip.io` / `staging-<app>.129.152.30.248.nip.io`
+- pgAdmin: `https://pgadmin.204.216.211.166.nip.io`
+- App future: `<app>.204.216.211.166.nip.io` / `staging-<app>.204.216.211.166.nip.io`
 
 Ingress: Traefik (k3s). TLS: cert-manager + ClusterIssuer `letsencrypt-prod` (HTTP-01).
 

@@ -112,10 +112,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - pgadmin.129.152.30.248.nip.io
+        - pgadmin.204.216.211.166.nip.io
       secretName: pgadmin-tls
   rules:
-    - host: pgadmin.129.152.30.248.nip.io
+    - host: pgadmin.204.216.211.166.nip.io
       http:
         paths:
           - path: /

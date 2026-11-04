@@ -8,13 +8,13 @@ Il NSG OCI permette SSH solo da `allowed_ssh_cidr` in `oci-infrastructure/infra/
 
 1. Il tuo IPv4 pubblico (da casa): apri [https://ifconfig.me](https://ifconfig.me) o `curl -4 ifconfig.me`.
 2. Imposta `allowed_ssh_cidr = "TUO_IP/32"` e `terraform apply` nella cartella terraform.
-3. Prova: `ssh -i ~/.ssh/id_ed25519 ubuntu@129.152.30.248`
+3. Prova: `ssh -i ~/.ssh/id_ed25519 ubuntu@204.216.211.166`
 
 Senza SSH non puoi creare i secret né leggere la password iniziale di Argo CD (serve `kubectl` sulla VM).
 
 ## 1. Argo CD — login
 
-URL: [http://argocd.129.152.30.248.nip.io](http://argocd.129.152.30.248.nip.io)
+URL: [http://argocd.204.216.211.166.nip.io](http://argocd.204.216.211.166.nip.io)
 
 Password iniziale `admin` (solo se non l’hai già cambiata), dalla VM:
 
@@ -65,7 +65,7 @@ Poi in Argo CD: **Refresh + Sync** su `datastores-production` e `datastores-stag
 
 Sync `platform` (figlio di `oci-gitops`). Attendi pod `cert-manager` Ready e ClusterIssuer `letsencrypt-prod`.
 
-Poi pgAdmin: [https://pgadmin.129.152.30.248.nip.io](https://pgadmin.129.152.30.248.nip.io) (certificato dopo qualche minuto).
+Poi pgAdmin: [https://pgadmin.204.216.211.166.nip.io](https://pgadmin.204.216.211.166.nip.io) (certificato dopo qualche minuto).
 
 ## 6. Alloy / Loki (opzionale)
 

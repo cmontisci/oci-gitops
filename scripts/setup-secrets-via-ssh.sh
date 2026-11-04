@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Dal PC (senza kubectl locale): copia setup-secrets.env sulla VM ed esegue lo script lì.
-# Uso: bash scripts/setup-secrets-via-ssh.sh [ubuntu@129.152.30.248]
+# Uso: bash scripts/setup-secrets-via-ssh.sh ubuntu@<ip>
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_FILE="$ROOT/scripts/setup-secrets.env"
-REMOTE="${1:-ubuntu@129.152.30.248}"
+REMOTE="${1:-${GITOPS_REMOTE:-}}"
+if [[ -z "$REMOTE" ]]; then
+  echo "Uso: bash scripts/setup-secrets-via-ssh.sh ubuntu@<ip>" >&2
+  exit 1
+fi
 SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_ed25519}"
 SSH_OPTS=(-o BatchMode=yes)
 [[ -f "$SSH_KEY" ]] && SSH_OPTS+=(-i "$SSH_KEY")

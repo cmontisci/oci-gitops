@@ -27,13 +27,14 @@ fi
 
 GITOPS_REPO_URL="${GITOPS_REPO_URL:-git@github.com:cmontisci/oci-gitops.git}"
 GITOPS_SSH_KEY="${GITOPS_SSH_KEY:-$HOME/.ssh/oci-gitops-argocd}"
-REMOTE="${GITOPS_REMOTE:-ubuntu@129.152.30.248}"
+REMOTE="${GITOPS_REMOTE:-}"
 SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_ed25519}"
 
 usage() {
   echo "Usage: bash scripts/bootstrap-argocd-gitops.sh [--via-ssh]" >&2
   echo "  GITOPS_SSH_KEY  default: ~/.ssh/oci-gitops-argocd" >&2
   echo "  GITOPS_REPO_URL default: git@github.com:cmontisci/oci-gitops.git" >&2
+  echo "  GITOPS_REMOTE    obbligatorio se kubectl locale non arriva al cluster, es. ubuntu@<ip>" >&2
 }
 
 run_on_cluster() {
@@ -69,6 +70,11 @@ run_on_cluster() {
 }
 
 via_ssh() {
+  if [[ -z "$REMOTE" ]]; then
+    echo "Imposta GITOPS_REMOTE=ubuntu@<ip pubblico>." >&2
+    exit 1
+  fi
+
   local ssh_opts=(-o BatchMode=yes)
   [[ -f "$SSH_KEY" ]] && ssh_opts+=(-i "$SSH_KEY")
 

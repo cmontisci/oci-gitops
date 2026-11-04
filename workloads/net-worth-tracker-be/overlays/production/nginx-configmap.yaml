@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: net-worth-tracker-be-nginx
+data:
+  default.conf: |
+    server {
+        listen 80;
+        client_max_body_size 32m;
+
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location ~ ^/index\.php(/|$) {
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_param SCRIPT_FILENAME /app/public/index.php;
+            fastcgi_param DOCUMENT_ROOT /app/public;
+            fastcgi_param HTTP_AUTHORIZATION $http_authorization;
+            fastcgi_read_timeout 120s;
+        }
+    }

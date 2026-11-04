@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: net-worth-tracker
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - net-worth-tracker.204.216.211.166.nip.io
+      secretName: net-worth-tracker-tls
+  rules:
+    - host: net-worth-tracker.204.216.211.166.nip.io
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: net-worth-tracker-be
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: net-worth-tracker
+                port:
+                  number: 80

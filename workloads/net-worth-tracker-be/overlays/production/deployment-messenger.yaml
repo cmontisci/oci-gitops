@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-worth-tracker-be-messenger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: net-worth-tracker-be-messenger
+  template:
+    metadata:
+      labels:
+        app: net-worth-tracker-be-messenger
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      containers:
+        - name: messenger
+          image: ghcr.io/cmontisci/net-worth-tracker-be:latest
+          command:
+            - php
+            - bin/console
+            - messenger:consume
+            - async
+            - -vv
+            - --time-limit=3600
+          envFrom:
+            - secretRef:
+                name: nwt-config
+          volumeMounts:
+            - name: jwt
+              mountPath: /app/config/jwt
+              readOnly: true
+          resources:
+            requests:
+              cpu: 20m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: jwt
+          secret:
+            secretName: nwt-jwt
