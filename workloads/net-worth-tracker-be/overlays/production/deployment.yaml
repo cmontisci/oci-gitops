@@ -16,7 +16,7 @@ spec:
         - name: ghcr
       initContainers:
         - name: migrate
-          image: ghcr.io/cmontisci/net-worth-tracker-be:8ee03cfd6078c27c222c8fc24f407f383b1bc4f9
+          image: ghcr.io/cmontisci/net-worth-tracker-be:d327538166a1711ad5adf7fe3aa39e5e4eeccf5e
           command:
             - php
             - bin/console
@@ -32,7 +32,7 @@ spec:
               readOnly: true
       containers:
         - name: net-worth-tracker-be
-          image: ghcr.io/cmontisci/net-worth-tracker-be:8ee03cfd6078c27c222c8fc24f407f383b1bc4f9
+          image: ghcr.io/cmontisci/net-worth-tracker-be:d327538166a1711ad5adf7fe3aa39e5e4eeccf5e
           ports:
             - name: fpm
               containerPort: 9000
