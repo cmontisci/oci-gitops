@@ -16,7 +16,7 @@ spec:
         - name: ghcr
       containers:
         - name: net-worth-tracker
-          image: ghcr.io/cmontisci/net-worth-tracker-fe:6a4df53bb70dcfd03fec1a27e8a4363bd5323993
+          image: ghcr.io/cmontisci/net-worth-tracker-fe:a173b8b05b7c9698006a582fec076f88caf1834b
           ports:
             - name: http
               containerPort: 80
