@@ -16,7 +16,7 @@ spec:
         - name: ghcr
       containers:
         - name: messenger
-          image: ghcr.io/cmontisci/net-worth-tracker-be:1e79f2b4d444b56fc88f9b4df4c651f9c8f10149
+          image: ghcr.io/cmontisci/net-worth-tracker-be:781fbf2a414b27eb60da5745241fe5d33c54e3b3
           command:
             - php
             - bin/console
